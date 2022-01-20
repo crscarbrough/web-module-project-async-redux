@@ -1,12 +1,30 @@
-import React from 'react';
-import './App.css';
+import React from "react";
+import "./App.css";
+import { connect } from "react-redux";
 
-function App() {
+import GifList from "./components/GifList";
+import GifForm from "./components/GifForm";
+
+function App(props) {
+  const { loading, error } = props;
+
   return (
     <div className="App">
-      Async Redux Project
+      <h1>Search for Gifs</h1>
+      <GifForm />
+
+      {error !== "" && <h3>{error}</h3>}
+
+      {loading ? <h3>Loading the gifs!</h3> : <GifList />}
     </div>
   );
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    loading: state.loading,
+    error: state.error,
+  };
+};
+
+export default connect(mapStateToProps)(App);
